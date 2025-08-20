@@ -4,8 +4,9 @@ namespace LoguiSueldo.Models
 {
     public class Libro_sueldo_adicional
     {
-        public int PersonaID { get; set; }
+        [Key]
         public int LibroSueldoID { get; set; }
+        public int PersonaID { get; set; }
         public int ReciboID { get; set; }
         public int Cuil { get; set; }
         public int Conyugue { get; set; }

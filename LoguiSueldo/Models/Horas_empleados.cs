@@ -1,7 +1,10 @@
-﻿namespace LoguiSueldo.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LoguiSueldo.Models
 {
     public class Horas_empleados
     {
+        [Key]
         public int EmpleadoID {  get; set; }
         public float HorasFeriadoCant { get; set; }
         public float HorasExtrasCant { get; set; }

@@ -4,7 +4,7 @@ namespace LoguiSueldo.Models
 {
     public class Plantilla_Detalle
     {
-        [Key, Required]
+        [Key]
         public int PlantillaDetalleID { get; set; }
         public int PlantillaID { get; set; }
         public int ConceptoID { get; set; }

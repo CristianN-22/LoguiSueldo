@@ -4,7 +4,7 @@ namespace LoguiSueldo.Models
 {
     public class Recibo
     {
-        [Key, Required]
+        [Key]
         public int ReciboID { get; set; }
         public int EmpleadoID { get; set; }
         public int PlantillaID { get; set; }

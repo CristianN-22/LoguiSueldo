@@ -1,7 +1,10 @@
-﻿namespace LoguiSueldo.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LoguiSueldo.Models
 {
     public class Empleado_Adicional
     {
+        [Key]
         public int PersonaID { get; set; }
         public int CodigoSiniestro1 { get; set; }
         public int DiaSiniestro1 { get; set; }
