@@ -5,10 +5,12 @@ namespace LoguiSueldo.Models
 {
     public class Antiguedad_Convenio
     {
+        [Key]
+        public int AntiguedadConvenioID { get; set; }
         public int ConvenioID { get; set; }
-        public float Porcentaje { get; set; }
-        public float Desde { get; set; }
-        public float Hasta { get; set; }
+        public decimal Porcentaje { get; set; }
+        public decimal Desde { get; set; }
+        public decimal Hasta { get; set; }
         public bool CalculaPorAnio { get; set; }
     }
 }

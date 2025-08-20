@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoguiSueldo.Migrations
 {
     [DbContext(typeof(LoguiSueldoContext))]
-    [Migration("20250820111926_Inicial")]
+    [Migration("20250820130242_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace LoguiSueldo.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LoguiSueldo.Models.Art", b =>
+            modelBuilder.Entity("LoguiSueldo.Models.ART", b =>
                 {
                     b.Property<int>("ArtID")
                         .ValueGeneratedOnAdd()
@@ -32,12 +32,16 @@ namespace LoguiSueldo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArtID"));
 
-                    b.Property<string>("Descripcion")
+                    b.Property<int>("ConvenioID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ArtID");
 
-                    b.ToTable("Arts");
+                    b.ToTable("ARTs");
                 });
 #pragma warning restore 612, 618
         }

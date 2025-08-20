@@ -4,6 +4,7 @@ namespace LoguiSueldo.Models
 {
     public class Empleado
     {
+        [Key]
         public int PersonaID { get; set; }
         public int ConvenioID { get; set; }
         public int LocalidadID { get; set; }

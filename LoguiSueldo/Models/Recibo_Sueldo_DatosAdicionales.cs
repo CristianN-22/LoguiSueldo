@@ -4,6 +4,7 @@ namespace LoguiSueldo.Models
 {
     public class Recibo_Sueldo_DatosAdicionales
     {
+        [Key]
         public int ReciboID { get; set; }
         public int EmpleadoID { get; set; }
         public float RemuneracionBruta { get; set; }
