@@ -4,6 +4,7 @@ using LoguiSueldo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoguiSueldo.Migrations
 {
     [DbContext(typeof(LoguiSueldoContext))]
-    partial class LoguiSueldoContextModelSnapshot : ModelSnapshot
+    [Migration("20250821122522_4ta")]
+    partial class _4ta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -533,29 +536,6 @@ namespace LoguiSueldo.Migrations
                     b.HasIndex("LocalidadID");
 
                     b.ToTable("Empresas");
-                });
-
-            modelBuilder.Entity("LoguiSueldo.Models.EmpresaOnline", b =>
-                {
-                    b.Property<int>("EmpresaOnlineID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpresaOnlineID"));
-
-                    b.Property<int>("EmpresaID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UltimoIngreso")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UsuarioOnline")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EmpresaOnlineID");
-
-                    b.ToTable("EmpresasOnline");
                 });
 
             modelBuilder.Entity("LoguiSueldo.Models.Horas_empleados", b =>

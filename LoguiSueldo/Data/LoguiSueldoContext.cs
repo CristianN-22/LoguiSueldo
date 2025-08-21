@@ -8,9 +8,8 @@ namespace LoguiSueldo.Data
         public LoguiSueldoContext(DbContextOptions<LoguiSueldoContext> options)
             : base(options)
         {
+
         }
-        
-        
 
         public DbSet<Persona> Personas { get; set; }
 
@@ -23,6 +22,7 @@ namespace LoguiSueldo.Data
         public DbSet<Empleado_Adicional> Empleados_Adicional { get; set; }
 
         public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<EmpresaOnline> EmpresasOnline { get; set; }
 
         public DbSet<Pais> Pais { get; set; }
 

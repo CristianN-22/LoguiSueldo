@@ -21,7 +21,7 @@ namespace LoguiSueldo.Models
 
         public int PaisID { get; set; }
 
-        public int EmpresaID { get; set; }//06/08/2018 //0 o EmpresaID actual
+        //public int EmpresaID { get; set; }//06/08/2018 //0 o EmpresaID actual
 
         public virtual Pais Paises { get; set; }
 
@@ -34,7 +34,7 @@ namespace LoguiSueldo.Models
 
         public string ProvinciaNombre { get; set; }
 
-        public int EmpresaID { get; set; }
+        //public int EmpresaID { get; set; }
 
         public List<ListadoLocalidades> ListadoLocalidades { get; set; }
     }

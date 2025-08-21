@@ -4,6 +4,7 @@ using LoguiSueldo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoguiSueldo.Migrations
 {
     [DbContext(typeof(LoguiSueldoContext))]
-    partial class LoguiSueldoContextModelSnapshot : ModelSnapshot
+    [Migration("20250821120225_tercera")]
+    partial class tercera
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -535,29 +538,6 @@ namespace LoguiSueldo.Migrations
                     b.ToTable("Empresas");
                 });
 
-            modelBuilder.Entity("LoguiSueldo.Models.EmpresaOnline", b =>
-                {
-                    b.Property<int>("EmpresaOnlineID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpresaOnlineID"));
-
-                    b.Property<int>("EmpresaID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UltimoIngreso")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UsuarioOnline")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EmpresaOnlineID");
-
-                    b.ToTable("EmpresasOnline");
-                });
-
             modelBuilder.Entity("LoguiSueldo.Models.Horas_empleados", b =>
                 {
                     b.Property<int>("EmpleadoID")
@@ -826,6 +806,9 @@ namespace LoguiSueldo.Migrations
                     b.Property<string>("CodigoPostal")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmpresaID")
+                        .HasColumnType("int");
 
                     b.Property<string>("LocalidadNombre")
                         .IsRequired()
@@ -1109,6 +1092,9 @@ namespace LoguiSueldo.Migrations
             modelBuilder.Entity("LoguiSueldo.Models.Provincia", b =>
                 {
                     b.Property<int>("ProvinciaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmpresaID")
                         .HasColumnType("int");
 
                     b.Property<int>("PaisID")
