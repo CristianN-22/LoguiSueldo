@@ -1,6 +1,9 @@
 using LoguiSueldo.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +46,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=HomeController}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
