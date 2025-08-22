@@ -2,22 +2,21 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-
 namespace LoguiSueldo.Models
 {
-    public class ExternalLoginConfirmationViewModel
+    public class ExternalLoginConfirmationModel
     {
         [Required]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }
 
-    public class ExternalLoginListViewModel
+    public class ExternalLoginListModel
     {
         public string ReturnUrl { get; set; }
     }
 
-    public class SendCodeViewModel
+    public class SendCodeModel
     {
         public string SelectedProvider { get; set; }
         public ICollection<SelectListItem> Providers { get; set; }
@@ -25,7 +24,7 @@ namespace LoguiSueldo.Models
         public bool RememberMe { get; set; }
     }
 
-    public class VerifyCodeViewModel
+    public class VerifyCodeModel
     {
         [Required]
         public string Provider { get; set; }
@@ -41,14 +40,14 @@ namespace LoguiSueldo.Models
         public bool RememberMe { get; set; }
     }
 
-    public class ForgotViewModel
+    public class ForgotModel
     {
         [Required]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }
 
-    public class LoginViewModel
+    public class LoginModel
     {
         [Required]
         [Display(Name = "Correo electrónico")]
@@ -64,7 +63,7 @@ namespace LoguiSueldo.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterModel
     {
         [Required]
         [EmailAddress]
@@ -83,7 +82,7 @@ namespace LoguiSueldo.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class ResetPasswordViewModel
+    public class ResetPasswordModel
     {
         [Required]
         [EmailAddress]
@@ -104,7 +103,7 @@ namespace LoguiSueldo.Models
         public string Code { get; set; }
     }
 
-    public class ForgotPasswordViewModel
+    public class ForgotPasswordModel
     {
         [Display(Name = "Correo electrónico")]
         [Required(ErrorMessage = "Debe ingresar un {0}")]
