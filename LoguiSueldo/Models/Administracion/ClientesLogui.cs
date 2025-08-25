@@ -26,7 +26,7 @@ namespace LoguiSueldo.Models.Administracion
         [StringLength(100, ErrorMessage = "El {0} deben tener como máximo {1} caracteres.")]
         public string Domicilio { get; set; }
 
-        public int TipoContribuyenteID { get; set; }
+        //public int TipoContribuyenteID { get; set; }
 
         public int TipoDocumentoID { get; set; }
 

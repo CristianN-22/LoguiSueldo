@@ -4,6 +4,7 @@ using LoguiSueldo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoguiSueldo.Migrations
 {
     [DbContext(typeof(LoguiSueldoContext))]
-    partial class LoguiSueldoContextModelSnapshot : ModelSnapshot
+    [Migration("20250825120816_inicial2")]
+    partial class inicial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +81,9 @@ namespace LoguiSueldo.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("TipoContribuyenteID")
+                        .HasColumnType("int");
+
                     b.Property<int>("TipoDocumentoID")
                         .HasColumnType("int");
 
@@ -86,8 +92,6 @@ namespace LoguiSueldo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClienteID");
-
-                    b.HasIndex("TipoDocumentoID");
 
                     b.ToTable("ClientesLogui");
                 });
@@ -579,8 +583,6 @@ namespace LoguiSueldo.Migrations
 
                     b.HasIndex("LocalidadID");
 
-                    b.HasIndex("TipoDocumentoID");
-
                     b.ToTable("Empresas");
                 });
 
@@ -1071,8 +1073,6 @@ namespace LoguiSueldo.Migrations
 
                     b.HasIndex("LocalidadID");
 
-                    b.HasIndex("TipoDocumentoID");
-
                     b.ToTable("Personas");
                 });
 
@@ -1357,43 +1357,11 @@ namespace LoguiSueldo.Migrations
                     b.ToTable("SistJubilatorios");
                 });
 
-            modelBuilder.Entity("LoguiSueldo.Models.TipoDocumento", b =>
-                {
-                    b.Property<int>("TipoDocumentoID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TipoDocumentoNombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
-
-                    b.HasKey("TipoDocumentoID");
-
-                    b.ToTable("TipoDocumentos");
-                });
-
-            modelBuilder.Entity("LoguiSueldo.Models.Administracion.ClientesLogui", b =>
-                {
-                    b.HasOne("LoguiSueldo.Models.TipoDocumento", null)
-                        .WithMany("ClientesLoguiSoft")
-                        .HasForeignKey("TipoDocumentoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("LoguiSueldo.Models.Empresa", b =>
                 {
                     b.HasOne("LoguiSueldo.Models.Localidad", "Localidades")
                         .WithMany("Empresa")
                         .HasForeignKey("LocalidadID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LoguiSueldo.Models.TipoDocumento", null)
-                        .WithMany("Empresa")
-                        .HasForeignKey("TipoDocumentoID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1438,12 +1406,6 @@ namespace LoguiSueldo.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LoguiSueldo.Models.TipoDocumento", null)
-                        .WithMany("Persona")
-                        .HasForeignKey("TipoDocumentoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Localidades");
                 });
 
@@ -1483,15 +1445,6 @@ namespace LoguiSueldo.Migrations
             modelBuilder.Entity("LoguiSueldo.Models.Provincia", b =>
                 {
                     b.Navigation("Localidad");
-                });
-
-            modelBuilder.Entity("LoguiSueldo.Models.TipoDocumento", b =>
-                {
-                    b.Navigation("ClientesLoguiSoft");
-
-                    b.Navigation("Empresa");
-
-                    b.Navigation("Persona");
                 });
 #pragma warning restore 612, 618
         }

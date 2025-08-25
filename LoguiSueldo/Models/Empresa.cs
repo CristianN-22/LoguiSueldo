@@ -30,8 +30,8 @@ namespace LoguiSueldo.Models
         [Display(Name = "Localidad")]
         public int LocalidadID { get; set; }
 
-        [Display(Name = "Tipo de Contribuyente")]
-        public int TipoContribuyenteID { get; set; }
+        //[Display(Name = "Tipo de Contribuyente")]
+        //public int TipoContribuyenteID { get; set; }
 
         [Display(Name = "Tipo de Documento")]
         public int TipoDocumentoID { get; set; }
