@@ -18,9 +18,9 @@ namespace LoguiSueldo.Models
         [StringLength(150, ErrorMessage = "El {0} debe tener entre como máximo {1} caracteres.")]
         public string NombreCompleto { get; set; }
 
-        //[Display(Name = "Nombre de Fantasía")]
-        //[StringLength(150, ErrorMessage = "El {0} debe tener entre como máximo {1} caracteres.")]
-        //public string NombreFantasia { get; set; }
+        [Display(Name = "Nombre de Fantasía")]
+        [StringLength(150, ErrorMessage = "El {0} debe tener entre como máximo {1} caracteres.")]
+        public string NombreFantasia { get; set; }
 
         [Display(Name = "Dirección Real")]
         [StringLength(80, ErrorMessage = "La {0} debe tener entre como máximo {1} caracteres.")]
@@ -28,11 +28,9 @@ namespace LoguiSueldo.Models
 
         [Display(Name = "Localidad")]
         public int LocalidadID { get; set; }
-        public int ProvinciaID { get; set; }
-        public int PaisID { get; set; }
 
-        //[Display(Name = "Tipo de Contribuyente")]
-       // public int TipoContribuyenteID { get; set; }
+        [Display(Name = "Tipo de Contribuyente")]
+        public int TipoContribuyenteID { get; set; }
 
         [Display(Name = "Tipo de Documento")]
         public int TipoDocumentoID { get; set; }
@@ -45,8 +43,8 @@ namespace LoguiSueldo.Models
 
         [Display(Name = "Correo Electrónico")]
         public string CorreoElectronico { get; set; }
-        public int CodPostal { get; set; }
-        //public bool PersonaConsumidorFinal { get; set; }
+
+        public bool PersonaConsumidorFinal { get; set; }
 
         public bool Eliminado { get; set; }
 
@@ -59,8 +57,8 @@ namespace LoguiSueldo.Models
         [NotMapped]
         public int CabeceraPersonaId { get; set; }
 
-        //[NotMapped]
-        //public string NombreFinal { get { if (NombreFantasia != "" && NombreFantasia != null) { return NombreFantasia; } else { return NombreCompleto; } } }
+        [NotMapped]
+        public string NombreFinal { get { if (NombreFantasia != "" && NombreFantasia != null) { return NombreFantasia; } else { return NombreCompleto; } } }
 
     }
 

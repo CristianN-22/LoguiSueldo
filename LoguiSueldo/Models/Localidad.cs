@@ -24,7 +24,7 @@ namespace LoguiSueldo.Models
         [Required(ErrorMessage = "Debe seleccionar una Provincia")]
         public int ProvinciaID { get; set; }
 
-        //public int EmpresaID { get; set; }//EmpresaID = 0 (CORDOBA CAPITAL) o EmpresaID = actual
+        public int EmpresaID { get; set; }//EmpresaID = 0 (CORDOBA CAPITAL) o EmpresaID = actual
 
         [NotMapped]
         public string NombreVista { get { return LocalidadNombre + " / " + Provincias.ProvinciaNombre.ToUpper() + " / " + Provincias.Paises.PaisNombre; } }

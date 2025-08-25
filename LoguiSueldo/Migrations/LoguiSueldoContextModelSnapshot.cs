@@ -489,13 +489,13 @@ namespace LoguiSueldo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Cuit")
-                        .HasColumnType("int");
-
                     b.Property<string>("DireccionReal")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
+
+                    b.Property<int>("EmpresaIDLoguiGestion")
+                        .HasColumnType("int");
 
                     b.Property<int>("LocalidadID")
                         .HasColumnType("int");
@@ -533,29 +533,6 @@ namespace LoguiSueldo.Migrations
                     b.HasIndex("LocalidadID");
 
                     b.ToTable("Empresas");
-                });
-
-            modelBuilder.Entity("LoguiSueldo.Models.EmpresaOnline", b =>
-                {
-                    b.Property<int>("EmpresaOnlineID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpresaOnlineID"));
-
-                    b.Property<int>("EmpresaID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UltimoIngreso")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UsuarioOnline")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EmpresaOnlineID");
-
-                    b.ToTable("EmpresasOnline");
                 });
 
             modelBuilder.Entity("LoguiSueldo.Models.Horas_empleados", b =>
@@ -827,6 +804,9 @@ namespace LoguiSueldo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EmpresaID")
+                        .HasColumnType("int");
+
                     b.Property<string>("LocalidadNombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -975,9 +955,6 @@ namespace LoguiSueldo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonaID"));
 
-                    b.Property<int>("CodPostal")
-                        .HasColumnType("int");
-
                     b.Property<string>("CorreoElectronico")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1001,19 +978,24 @@ namespace LoguiSueldo.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<string>("NombreFantasia")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<string>("NroTipoDocumento")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaisID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProvinciaID")
-                        .HasColumnType("int");
+                    b.Property<bool>("PersonaConsumidorFinal")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Telefono1")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TipoContribuyenteID")
+                        .HasColumnType("int");
 
                     b.Property<int>("TipoDocumentoID")
                         .HasColumnType("int");
@@ -1109,6 +1091,9 @@ namespace LoguiSueldo.Migrations
             modelBuilder.Entity("LoguiSueldo.Models.Provincia", b =>
                 {
                     b.Property<int>("ProvinciaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmpresaID")
                         .HasColumnType("int");
 
                     b.Property<int>("PaisID")
