@@ -109,6 +109,10 @@
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
     <!-- Ahora tus scripts personalizados -->
     <script src="~/js/site.js"></script>
     <script src="~/js/menu.js"></script>
