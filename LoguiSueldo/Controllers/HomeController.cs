@@ -16,53 +16,55 @@ namespace LoguiSueldo.Controllers
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, LoguiSueldoContext db)
         {
             _logger = logger;
+            this.db = db;
+            EmpresasController = new EmpresasController(db);
         }
 
         public ActionResult Index(string code, bool Graficos = false, bool GraficosStore = false)
         {
 
-            var usuarioactual = User.Identity.GetUserId();
+            //var usuarioactual = User.Identity.GetUserId();
 
-            Empresa empresa = new Empresa();
-            PermisoUsuario permisoUsuario = new PermisoUsuario();
-            if (EmpresasController.InformacionEmpresaActual(usuarioactual, empresa, permisoUsuario) == false)
-            {
-                return RedirectToAction("SeleccionaEmpresa", "Manage", new { id = empresa.EmpresaID });
-            }
-            if (empresa.EmpresaID == 0)
-            {
-                return RedirectToAction("Index", "Manage");
-            }
+            //Empresa empresa = new Empresa();
+            //PermisoUsuario permisoUsuario = new PermisoUsuario();
+            //if (EmpresasController.InformacionEmpresaActual(usuarioactual, empresa, permisoUsuario) == false)
+            //{
+            //    return RedirectToAction("SeleccionaEmpresa", "Manage", new { id = empresa.EmpresaID });
+            //}
+            //if (empresa.EmpresaID == 0)
+            //{
+             //   return RedirectToAction("Index", "Manage");
+            //}
 
             // ENCABEZADO IMPRESION.
-            var membreteEmpresa = new ListadoPersonas
-            {
-                NombreCompleto = empresa.NombreFinal,
-                DireccionReal = empresa.DireccionReal + " - " + empresa.Localidades.LocalidadNombre + " - " + empresa.Localidades.Provincias.ProvinciaNombre,
-                Telefono = empresa.Telefono1
-            };
-            ViewBag.Empresa = membreteEmpresa;
+            //var membreteEmpresa = new ListadoPersonas
+            //{
+             //   NombreCompleto = empresa.NombreFinal,
+              ///  DireccionReal = empresa.DireccionReal + " - " + empresa.Localidad + " - " + empresa.Localidades.Provincias.ProvinciaNombre,
+               // Telefono = empresa.Telefono1
+            //};
+            //ViewBag.Empresa = membreteEmpresa;
             // FIN ENCABEZADO IMPRESION.
 
-            List<ComboGeneral> cantidad = new List<ComboGeneral>();
-            cantidad.Add(new ComboGeneral { ID = 0, Descripcion = "Todos" });
-            cantidad.Add(new ComboGeneral { ID = 10, Descripcion = "Primeros 10" });
-            cantidad.Add(new ComboGeneral { ID = 20, Descripcion = "Primeros 20" });
-            cantidad.Add(new ComboGeneral { ID = 50, Descripcion = "Primeros 50" });
-            cantidad = cantidad.OrderBy(e => e.ID).ToList();
-            ViewBag.FiltroCantidad = new SelectList(cantidad, "ID", "Descripcion", 10);
+            //List<ComboGeneral> cantidad = new List<ComboGeneral>();
+            //cantidad.Add(new ComboGeneral { ID = 0, Descripcion = "Todos" });
+            //cantidad.Add(new ComboGeneral { ID = 10, Descripcion = "Primeros 10" });
+            //cantidad.Add(new ComboGeneral { ID = 20, Descripcion = "Primeros 20" });
+            //cantidad.Add(new ComboGeneral { ID = 50, Descripcion = "Primeros 50" });
+            //cantidad = cantidad.OrderBy(e => e.ID).ToList();
+            //ViewBag.FiltroCantidad = new SelectList(cantidad, "ID", "Descripcion", 10);
 
-            ViewBag.EmpresaID = empresa.EmpresaID;
-            ViewBag.PermisoID = permisoUsuario.PermisoID;
-            ViewBag.UsuarioID = usuarioactual;
+            //ViewBag.EmpresaID = empresa.EmpresaID;
+            //ViewBag.PermisoID = permisoUsuario.PermisoID;
+            //ViewBag.UsuarioID = usuarioactual;
 
             //var tiposContribuyentes = (from o in db.TipoContribuyentes where o.Visible == true && o.TipoContribuyenteID != 5 select o).ToList();
             //ViewBag.TipoContribuyenteIDAfip = new SelectList(tiposContribuyentes.OrderBy(t => t.TipoContribuyenteNombre), "TipoContribuyenteID", "TipoContribuyenteNombre", 1);
 
-            var usuariosEmpresa = (from usu in db.PermisoUsuarios where usu.EmpresaID == empresa.EmpresaID && usu.Desvinculado == false select usu).ToList();
+            //var usuariosEmpresa = (from usu in db.PermisoUsuarios where usu.EmpresaID == empresa.EmpresaID && usu.Desvinculado == false select usu).ToList();
             //List<Persona> vendedores = new List<Persona>();
             //foreach (var u in usuariosEmpresa)
             //{

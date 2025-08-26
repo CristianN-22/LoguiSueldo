@@ -44,7 +44,7 @@ namespace LoguiSueldo.Controllers
                 empresa.EmpresaID = empresaActual.EmpresaID;
                 empresa.RazonSocial = empresaActual.RazonSocial;
                 //empresa.TipoContribuyentes = empresaActual.TipoContribuyentes;
-                empresa.TipoContribuyenteID = empresaActual.TipoContribuyenteID;
+                //empresa.TipoContribuyenteID = empresaActual.TipoContribuyenteID;
                 empresa.TipoDocumentoID = empresaActual.TipoDocumentoID;
                 empresa.NroTipoDocumento = empresaActual.NroTipoDocumento;
 
@@ -79,7 +79,7 @@ namespace LoguiSueldo.Controllers
                 empresa.EmpresaID = empresaActual.EmpresaID;
                 empresa.RazonSocial = empresaActual.RazonSocial;
                 //empresa.TipoContribuyentes = empresaActual.TipoContribuyentes;
-                empresa.TipoContribuyenteID = empresaActual.TipoContribuyenteID;
+                //empresa.TipoContribuyenteID = empresaActual.TipoContribuyenteID;
                 empresa.TipoDocumentoID = empresaActual.TipoDocumentoID;
                 empresa.NroTipoDocumento = empresaActual.NroTipoDocumento;
                 empresa.CorreoElectronico = empresaActual.CorreoElectronico;
