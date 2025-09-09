@@ -22,7 +22,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LoguiSueldo.Controllers
 {
-    [Authorize]
+    //[Authorize]  Esto es mintras programamos
+    [AllowAnonymous]
     public class EmpresasController : Controller 
     {
         private readonly LoguiSueldoContext db;
@@ -111,7 +112,7 @@ namespace LoguiSueldo.Controllers
 
             ViewBag.Empresa = empresa.RazonSocial;
 
-            return View();
+            return View("~/Views/Empresas/Index.cshtml");
         }
 
         //BUSCAR INFORMACION DE LA EMPRESA LOGUEADA ACTUALMENTE MOSTRANDO TAMBIEN LOS USUARIOS RELACIONADOS

@@ -18,9 +18,17 @@ builder.Services.AddDbContext<LoguiSueldoContext>(options =>
     options.UseSqlServer(connectionString2));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+///Esto es para programar despues cambiar//////////
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => {
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();
+
+////////////////////////////
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -41,6 +49,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+//Esto es mitras programos
+app.UseAuthentication(); // importante para que no rompa
+////////////////////////////////////////////////////////
+
 
 app.UseAuthorization();
 
