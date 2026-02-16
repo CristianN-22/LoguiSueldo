@@ -1,0 +1,61 @@
+﻿@* LoguiSueldo/Views/Shared/_Login.cshtml adaptado a .NET Core *@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="~/img/ICOWEB.ico" />
+    <title>Logui Contable</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link href="~/css/Login-1.0.1.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/custom-scrollbar-1.0.0.css" rel="stylesheet" />
+</head>
+<body>
+
+    @RenderBody()
+
+    <script src="~/js/jquery-3.1.1.min.js"></script>
+    <script src="~/js/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('.carousel').carousel();
+            $('form.form > .form-control').focus();
+
+            var about = document.querySelector('.login-container .about');
+
+            setTimeout(() => {
+                if (about) {
+                    about.classList.add('show');
+                }
+            }, 1500);
+
+        });
+
+        // Borra la cookie que contiene la información del usuario.
+        function borrarCookie() {
+            var expiracion = new Date();
+            expiracion.setTime(expiracion.getTime() - 3600);
+            document.cookie = 'userInfo=; expires=' + expiracion.toGMTString() + '; path=/';
+        };
+
+        if (location.pathname === '/Account/Login') {
+            borrarCookie();
+        }
+    </script>
+
+    @if (ViewBag.ModelError == "Intento de inicio de sesión no válido.")
+    {
+        <script>
+            $("#btn-ingresar").removeClass("ocultar");
+            $("#btn-ingresando").addClass("ocultar");
+            //alert("Intento de inicio de sesión no válido.");
+        </script>
+    }
+</body>
+</html>

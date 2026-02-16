@@ -1,0 +1,46 @@
+﻿@page
+@model LoguiSueldo.Models.ForgotPasswordModel
+@{
+    ViewBag.Title = "¿Olvidó la contraseña?";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow" style="width: 100%; max-width: 400px;">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <img class="profile-img" src="~/img/logoLoguiGestion.png" style="max-width: 220px; margin-top: -10px;" />
+            </div>
+            @using (Html.BeginForm("RecuperarContraseña", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", required = "required" })
+                </div>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="text-danger">@ViewBag.Error</div>
+                }
+
+                <div>
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3 small text-muted">
+                    Luego de ingresar el email, deberá comprobar su correo electrónico para visualizar su nueva contraseña.
+                </div>
+
+                <input type="submit" value="Recuperar Contraseña" class="btn btn-success btn-lg w-100" />
+
+                <div class="text-center mt-3">
+                    <a href="~/Personas/Index" class="text-center new-account">Volver</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}

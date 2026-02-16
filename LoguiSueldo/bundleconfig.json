@@ -1,0 +1,83 @@
+[
+    {
+        "outputFileName": "wwwroot/css/menu-bundle.css",
+        "inputFiles": [
+            "wwwroot/css/bootstrap.min.css",
+            "wwwroot/css/font-awesome.min.css",
+            "wwwroot/css/skins/_all-skins.css"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/css/content-bundle.css",
+        "inputFiles": [
+            "wwwroot/css/AdminLogui21.08.20.css",
+            "wwwroot/css/NoImprimirMenu.css",
+            "wwwroot/css/LoguiSoft-1.1.3.css",
+            "wwwroot/css/SwitchButtons-1.0.0.css",
+            "wwwroot/css/Loguin16-01.css",
+            "wwwroot/css/custom-scrollbar-1.0.0.css"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/js/jquery-bundle.js",
+        "inputFiles": [
+            "wwwroot/js/jquery-3.1.1.min.js"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/js/jqueryval-bundle.js",
+        "inputFiles": [
+            "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+            "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/js/modernizr-bundle.js",
+        "inputFiles": [
+            "wwwroot/js/modernizr-2.6.2.js"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/js/bootstrap-bundle.js",
+        "inputFiles": [
+            "wwwroot/js/bootstrap.min.js",
+            "wwwroot/js/respond.min.js"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/js/menu-bundle.js",
+        "inputFiles": [
+            "wwwroot/js/plugins/bootstrap/bootstrap.min.js",
+            "wwwroot/js/plugins/jquery-ui/jquery-ui.min.js",
+            "wwwroot/js/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+            "wwwroot/js/adminlte.js",
+            "wwwroot/js/activeMenu-1.0.0.js"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/js/bundles-bundle.js",
+        "inputFiles": [
+            "wwwroot/js/jquery.min.js",
+            "wwwroot/js/main.js",
+            "wwwroot/js/sweetalert.min.js"
+        ],
+        "minify": { "enabled": false }
+    },
+    {
+        "outputFileName": "wwwroot/js/datepicker-bundle.js",
+        "inputFiles": [
+            "wwwroot/js/jquery-ui/jquery-ui.min.js",
+            "wwwroot/js/DateTimePicker/datetimepicker.js",
+            "wwwroot/js/jquery-ui/datepicker-es.js"
+        ],
+        "minify": { "enabled": false }
+    }
+]
+

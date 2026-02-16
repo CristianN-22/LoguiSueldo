@@ -1,0 +1,842 @@
+﻿@model IEnumerable<LoguiSueldo.Models.ListadoEmpresaUsuario>
+
+@{
+    ViewBag.Title = "Gestión de la cuenta";
+    Layout = "~/Views/Shared/_LayoutMenuSimple.cshtml";
+}
+
+<div>
+    <section class="content-header">
+        <h1>
+            PERFIL
+            <small>Datos Personales y del Usuario</small>
+        </h1>
+    </section>
+    <section class="content">
+        @*MENSAGE DONDE INFORMAMOS QUE LA CONTRASEÑA SE CAMBIO CORRECTAMENTE*@
+        @if (ViewBag.StatusMessage != "")
+        {
+            <div id="Eliminado" class="alert alert-success text-center" style="font-size:16px;">
+                <div class="mensajeSuccess">
+                    <div class="text-right" style="margin-top:-5px ;margin-bottom:-15px; cursor:pointer">
+                        <a onclick="QuitarMensaje()"><i class="glyphicon glyphicon-remove mensajeSuccess"></i></a>
+                    </div>
+                    <strong>¡Constraseña cambiada Correctamente!</strong>
+                </div>
+            </div>
+        }
+
+
+        @*BOTON DE VOLVER*@
+        <a class="btnPosicion1" href="~/Manage/Index" title="Volver">
+            <i class="fa fa-arrow-left"></i>
+        </a>
+
+
+        <div class="margenInfIndex">
+
+            <div class="form-horizontal">
+                <h4 style="border-bottom:2px solid #c8c8c8">Contraseña del Usuario</h4>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <a href="~/Manage/ChangePassword" name="btn-submit" class="NoSubrayar">
+                            <div class="panel panel-default">
+                                <div class="cuadro-plan">
+                                    <div class="panel-body">
+                                        <div>
+                                            <div class="text-center">
+                                                <p class="text-bold" style="font-size:22px; margin: 0px">Cambiar Clave del Usuario</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <hr style="border-color:transparent" />
+            </div>
+            @*}*@
+
+
+
+            @if (ViewBag.datosPersonalesCliente.ClienteID != 0 && ViewBag.EmpresasActivas == true)
+            {
+                <div class="form-horizontal">
+                    <h4 style="border-bottom:2px solid #c8c8c8">Datos Personales de Cliente</h4>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <a style="cursor:pointer" @*onclick='EditarDetalle("@ViewBag.datosPersonalesCliente.ClienteID")'*@ class="NoSubrayar" data-toggle='modal' data-target='.EditarCliente'>
+                                <div class="panel panel-default">
+                                    <div class="cuadro-plan">
+                                        <div class="panel-body">
+                                            <div class="form-group" style="margin-bottom: 0px;">
+                                                <div class="text-left" style="align-items:center;">
+                                                    <div class="col-md-12">
+                                                        <p class="text-bold" style="font-size:22px; margin: 0px">@ViewBag.datosPersonalesCliente.RazonSocial</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p class="text-bold" style="font-size:16px; margin: 10px 0px 0px 0px">
+                                                            @ViewBag.datosPersonalesCliente.TipoDocumentoNombre :
+                                                            @ViewBag.datosPersonalesCliente.NroDocumento
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p class="text-bold" style="font-size:16px; margin: 10px 0px 0px 0px">E-mail: @ViewBag.EmailLogueado</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <hr style="border-color:transparent" />
+                </div>
+            }
+
+        </div>
+    </section>
+
+
+
+    <div>
+        @*//********************************//***********************************************************//*********************************//
+            //*********************************// INICIO de la ventana emergente para la EDICIÓN DE CLIENTE //*********************************//*@
+        <div @*id="EditarCliente"*@ class="modal fade @*EditarCliente*@" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Editar datos del Cliente.</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal form-articulo-factura" role="form" id="formulario" style="margin-top:0px">
+                            <input type="hidden" id="ClienteID" value="0" />
+
+                            <div class="form-group">
+                                <div class="col-md-12 col-xs-12">
+                                    <label for="name" class="control-label">Nombre y Apellido / Razón Social <span class="requerido">*</span></label>
+                                    <input class="form-control requerido" type="text" id="RazonSocial" onClick="this.select()" autocomplete="off" style="text-transform:uppercase;" />
+                                    @*<p class="aclaracion-input" id="requerido-RazonSocial">*Campo Requerido</p>*@
+                                    <p class="aclaracion-input ocultar requerido" id="caracteres-RazonSocial">*El Nombre y Apellido / Razon Social no puede quedar vacia.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-xs-12">
+                                    <label for="name" class="control-label">Telefono <span class="requerido">*</span></label>
+                                    <input class="form-control requerido" type="text" id="Telefono" onClick="this.select()" autocomplete="off" style="text-transform:uppercase;" />
+                                    @*<p class="aclaracion-input" id="requerido-Tel">*Campo Requerido</p>*@
+                                    <p class="aclaracion-input ocultar requerido" id="caracteres-Tel">*Debe ingresar un Nro. de Telefono.</p>
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+                                    <label for="name" class="control-label">Domicilio y Localidad</label>
+                                    <input class="form-control" type="text" id="Domicilio" onClick="this.select()" autocomplete="off" style="text-transform:uppercase;" />
+                                    <p class="aclaracion-input ocultar" id="caracteres-Domicilio" style="color: red">*Debe ingresar un Domicilio.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-xs-12">
+                                    <label for="name" class="control-label">Tipo de Contribuyente</label>
+                                    @Html.DropDownList("TipoContribuyenteID", null, htmlAttributes: new { @class = "form-control", @id = "Contribuyente" })
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+                                    <label for="name" class="control-label">Tipo de Documento</label>
+                                    @Html.DropDownList("TipoDocumentoID", null, htmlAttributes: new { @class = "form-control", @id = "Documento" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-xs-12">
+                                    <label for="name" class="control-label">Nro. de Documento <span class="requerido">*</span></label>
+                                    <input class="form-control requerido" type="text" id="DNI" onClick="this.select()" autocomplete="off" style="text-transform:uppercase;" />
+                                    <p class="aclaracion-input ocultar" id="DNI-duplicado" style="font-size:14px; color: red">Ya existe un cliente con el mismo Nº Documento / CUIT.</p>
+                                    @*<p class="aclaracion-input" id="requerido-DNI">*Campo Requerido</p>*@
+                                    <p class="aclaracion-input ocultar requerido" id="caracteres-DNI">*Debe ingresar un Nro. de Documento.</p>
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+                                    <label for="name" class="control-label">Fecha de Alta</label>
+                                    <input class="form-control" id="FechaAlta" disabled="disabled" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <button type="button" id="btn-cancelar" class="btn-ovalo" data-dismiss="modal">Cancelar</button>
+                            <button id="btn-agregar" class="btn-ovalo"> Aceptar</button>
+                            <button id="btn-espere" class="btn-ovalo ocultar">Espere...</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*//***********************************// FIN de la ventana emergente para la EDICIÓN DE CLIENTE //*********************************//
+        //************************************//********************************************************//*********************************//*@
+
+
+
+    @*//********************************//**********************************************************//*********************************//
+        //*********************************// INICIO de la ventana emergente para la CONSULTA DE ITEMS //*********************************//*@
+    <div>
+        <div id="ConsultarItemsFacturados" class="modal fade ConsultarItemsFacturados" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Items Facturados por Mes.</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="tabla" class="table-condensed table-hover paddingEncabezadosTablas">
+                            <thead>
+                                <tr class="barratitulosindex" style='background-image: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);'>
+                                    <th style="width:60%">Items Facturados</th>
+                                    <th class='descarto' style="width:25%"></th>
+                                    <th class="text-right" style="width:15%">$ Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-items"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*//***********************************// FIN de la ventana emergente para la CONSULTA DE ITEMS //*********************************//
+        //************************************//*******************************************************//*********************************//*@
+
+
+
+    @*//********************************//***************************************************************//*********************************//
+        //*********************************// INICIO de la ventana emergente para la ASOCIACION DE CLIENTES //*********************************//*@
+    <div>
+        <div id="AsociarClientes" class="modal fade AsociarClientes" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Asociación de Clientes.</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="idClienteAsociar" value=0 />
+
+                        <form class="form-horizontal form-articulo-factura" role="form" id="formulario" style="margin-top:0px">
+                            <div class="form-group espaciadoEnForm">
+                                <div class="col-md-9 col-12" style="margin-bottom:10px;">
+                                    <input id="buscar" type="text" class="form-control" autocomplete="off" placeholder="Escriba aquí el correo de la persona a Asociar" />
+                                    <p class="aclaracion-input ocultar" id="caracteres-Email" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <button style="margin-bottom:10px;" id="BuscarAsociado" title="Buscar Asociado" type="button" class="btn-ovalo" data-toggle="modal">Buscar</button>
+                                </div>
+                            </div>
+                        </form>
+                        <table id="tabla" class="table-condensed table-hover paddingEncabezadosTablas">
+                            <thead id="thead-asociar">
+                            </thead>
+                            <tbody id="tbody-asociar"></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <button id="btn-cancelarAsociado" class="btn-ovalo" data-dismiss="modal">Cancelar</button>
+                            <button id="btn-agregarAsociado" class="btn-ovalo"> Aceptar</button>
+                            <button id="btn-espereAsociado" class="btn-ovalo ocultar">Espere...</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*//***********************************// FIN de la ventana emergente para la ASOCIACION DE CLIENTES //*********************************//
+        //************************************//************************************************************//*********************************//*@
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function QuitarMensaje() {
+            $('#ErrorEliminar').addClass('ocultarCarga');
+            $('#Eliminado').addClass('ocultarCarga');
+        }
+
+        var moneda = new Intl.NumberFormat('en-US', {
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+
+        function hacerFocoBuscar() {
+            setTimeout("activarFoco();", 500);
+        }
+        function activarFoco() {
+            $("#buscar").focus();
+        }
+
+
+        //**********************************//***********************************************************//*********************************//
+        //*********************************// INICIO de la sección para la EDICION DE DATOS DEL CLIENTE //*********************************//
+        function AbrirEditarCliente() {
+            $("#EditarCliente").modal();
+        }
+        function CerrarEditarCliente() {
+            $("#EditarCliente").modal('hide');
+            location.href = "../../Manage/Perfil";
+        }
+
+        $('#btn-cancelar').click(function () {
+            $('#caracteres-RazonSocial').addClass('ocultar');
+            $('#requerido-RazonSocial').addClass('ocultar');
+
+            $('#caracteres-Tel').addClass('ocultar');
+            $('#requerido-Tel').addClass('ocultar');
+
+            $('#caracteres-Domicilio').addClass('ocultar');
+            $('#requerido-Domicilio').addClass('ocultar');
+
+            $('#caracteres-DNI').addClass('ocultar');
+            $('#requerido-DNI').addClass('ocultar');
+        });
+
+        $('#btn-agregar').click(function () {
+            var clienteID = $("#ClienteID").val();
+            var razonSocial = $("#RazonSocial").val();
+            var telefono = $("#Telefono").val();
+            var domicilio = $("#Domicilio").val();
+            var dni = $("#DNI").val();
+
+            if (razonSocial == "" || razonSocial == null) {
+                $('#caracteres-RazonSocial').removeClass('ocultar');
+                $('#requerido-RazonSocial').addClass('ocultar');
+                return false;
+            }
+            else if (telefono == "" || telefono == null) {
+                $('#caracteres-Tel').removeClass('ocultar');
+                $('#requerido-Tel').addClass('ocultar');
+                return false;
+            }
+            else if (domicilio == "" || domicilio == null) {
+                $('#caracteres-Domicilio').removeClass('ocultar');
+                $('#requerido-Domicilio').addClass('ocultar');
+                return false;
+            }
+            else if (dni == "" || dni == null) {
+                $('#caracteres-DNI').removeClass('ocultar');
+                $('#requerido-DNI').addClass('ocultar');
+                return false;
+            }
+            else {
+                InsertarDetalle(clienteID);
+            }
+        });
+
+        //GUARDAR DATOS DEL CLIENTE.
+        function InsertarDetalle(clienteID) {
+            $('#btn-agregar').addClass('ocultar');
+            $('#btn-espere').removeClass('ocultar');
+
+            var razonSocial = $("#RazonSocial").val();
+            var telefono = $("#Telefono").val();
+            var domicilio = $("#Domicilio").val();
+            var contribuyenteID = $("#Contribuyente").val();
+            var documentoID = $("#Documento").val();
+            var dni = $("#DNI").val();
+
+            $.ajax({
+                type: "POST",
+                url: '../../Account/EditarCliente',
+                data: {
+                    ClienteID: clienteID, RazonSocial: razonSocial, Telefono: telefono, Domicilio: domicilio, ContribuyenteID: contribuyenteID, DocumentoID: documentoID, DNI: dni
+                },
+                success: function (resultado) {
+                    if (resultado == true) {
+                        $('#DNI-duplicado').addClass('ocultar');
+                        $('#requerido-DNI').removeClass('ocultar');
+                        $('#btn-agregar').addClass('ocultar');
+                        $('#btn-espere').removeClass('ocultar');
+                        CerrarEditarCliente();
+                    }
+                    else {
+                        $('#DNI-duplicado').removeClass('ocultar');
+                        $('#requerido-DNI').addClass('ocultar');
+
+                        $('#btn-agregar').removeClass('ocultar');
+                        $('#btn-espere').addClass('ocultar');
+                    }
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+        //FIN GUARDAR DATOS DEL CLIENTE.
+
+        //COMPLETAR DATOS DEL FORMULARIO DE CUANDO EDITA.
+        function EditarDetalle(clienteID) {
+            $("#ClienteID").val('0');
+            $("#RazonSocial").val('');
+
+            $("#Telefono").val('');
+            $("#Domicilio").val('');
+
+            $("#Contribuyente").val('0');
+            $("#Documento").val('0');
+
+            $("#DNI").val('0');
+            $("#FechaAlta").val('');
+
+            $.ajax({
+                type: "POST",
+                url: '../../Manage/BuscarDatosCliente',
+                data: { ClienteID: clienteID },
+                success: function (detalle) {
+                    $("#ClienteID").val(detalle.ClienteID);
+                    $("#RazonSocial").val(detalle.RazonSocial);
+
+                    $("#Telefono").val(detalle.Telefono);
+                    $('#Domicilio').val(detalle.Domicilio);
+
+                    $('#Contribuyente').val(detalle.TipoContribuyenteID);
+                    $('#Documento').val(detalle.TipoDocumentoID);
+
+                    $('#DNI').val(detalle.NroDocumento);
+                    $('#FechaAlta').val(detalle.FechaAltaString);
+                },
+                error: function (result) {
+                }
+            });
+        }
+        //FIN COMPLETAR DATOS DEL FORMULARIO DE CUANDO EDITA.
+
+        //***********************************// FIN de la sección es para la EDICION DE DATOS DEL CLIENTE //*********************************//
+        //**********************************//***********************************************************//*********************************//
+
+
+
+        //**********************************//************************************************//*********************************//
+        //*********************************// INICIO de la sección para la CONSULTA DE ITEMS //*********************************//
+        //CONSULTAR ITEMS A FACTURAR DEL CLIENTE.
+        function ConsultarItemsFacturados() {
+            $("#tbody-items").empty();
+            $.ajax({
+                type: "POST",
+                url: '../../Manage/ItemsFacturados',
+                data: {
+                },
+                success: function (listadoEmpresas) {
+                    var totaAPagar = 0;
+                    $.each(listadoEmpresas, function (index, item) {
+
+                        $("#tbody-items").append("<tr>" +
+                            "<td>" + "<strong>Empresa: </strong>" + "<span class='text-red text-bold'>" + item.RazonSocial + "</span>" + "<strong> // Plan: </strong>" + item.PlanNombre + "<strong> // Estado del Plan: </strong>" + item.EstadoEmpresa + "</td>" +
+
+                            "<td class='descarto'></td>" +
+
+                            "<td class='text-right text-bold'>$" + moneda.format(item.ImporteMensual.toFixed(2)) + "</td>" +
+
+                            "</tr>"
+                        );
+
+                        totaAPagar += item.ImporteMensual;
+
+                        $.each(item.ListadoPtoVta, function (index, ptovta) {
+                            $("#tbody-items").append("<tr>" +
+
+                                "<td class='descarto'></td>" +
+
+                                "<td>" + "<strong>Punto de Venta Nro.: </strong>" + ptovta.PtoVta + "</td>" +
+
+                                "<td class='text-right text-bold'>$" + moneda.format(ptovta.ImportePtoVta.toFixed(2)) + "</td>" +
+
+                                "</tr>"
+                            );
+
+                            totaAPagar += ptovta.ImportePtoVta;
+                        });
+
+                        $.each(item.ListadoPack, function (index, pack) {
+                            $("#tbody-items").append("<tr>" +
+
+                                "<td class='descarto'></td>" +
+
+                                "<td>" + "<strong>Pack Adicional: </strong>" + pack.Nombre + "</td>" +
+
+                                "<td class='text-right text-bold'>$" + moneda.format(pack.MontoPack.toFixed(2)) + "</td>" +
+
+                                "</tr>"
+                            );
+
+                            totaAPagar += pack.MontoPack;
+                        });
+
+                        $("#tbody-items").append(
+                            "<tr style='background: transparent; border-color: transparent; height: 30px; border: 0px solid transparent; background-image: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);' class='tr'>" +
+
+                            "<td></td>" +
+
+                            "<td></td>" +
+
+                            "<td class='descarto'></td>" +
+
+                            "</tr>"
+                        );
+                    });
+
+                    $("#tbody-items").append(
+                        "<tr>" +
+
+                        "<td colspan='12' style='font-size:16px; height:25px;' class='text-red text-bold text-right'> Total a Pagar por el Cliente: $" + moneda.format(totaAPagar.toFixed(2)) + "</td>" +
+
+                        "</tr>"
+                    );
+                },
+                error: function (result) {
+                }
+            });
+        }
+        //FIN CONSULTAR ITEMS A FACTURAR DEL CLIENTE.
+
+        //***********************************// FIN de la sección es para la CONSULTA DE ITEMS //*********************************//
+        //**********************************//************************************************//*********************************//
+
+
+
+        //**********************************//*****************************************************//*********************************//
+        //*********************************// INICIO de la sección para la ASOCIACIÓN DE CLIENTES //*********************************//
+        $('#btn-cancelarAsociado').click(function () {
+            $('#buscar').val('');
+            $('#caracteres-Email').addClass('ocultar');
+
+            $("#tbody-asociar").empty();
+            $("#thead-asociar").empty();
+        });
+
+        $('#btn-agregarAsociado').click(function () {
+            $('#caracteres-Email').addClass('ocultar');
+
+            if (ckeck == true) {
+                AsociarClientes();
+            }
+            else {
+                $('#caracteres-Email').text('Debe seleccionar el Cliente en la casilla de verificación para confirmar la Asociación.');
+                $('#caracteres-Email').removeClass('ocultar');
+            }
+        });
+
+        $('#BuscarAsociado').click(function () {
+            var buscar = $("#buscar").val();
+            $('#caracteres-Email').text('');
+
+            if (buscar == "" || buscar == null) {
+                $('#caracteres-Email').text('*Debe ingresar un Email.');
+                $('#caracteres-Email').removeClass('ocultar');
+            }
+            else {
+                ConsultarEmail();
+                $('#caracteres-Email').addClass('ocultar');
+            }
+        });
+
+        //CONSULTAR CLIENTE POR CORREO.
+        function ConsultarEmail() {
+            var emailAAsociar = $("#buscar").val();
+
+            $("#tbody-asociar").empty();
+            $("#thead-asociar").empty();
+            $.ajax({
+                type: "POST",
+                url: '../../Manage/ConsultarEmail',
+                data: { EmailAAsociar: emailAAsociar },
+                success: function (persona) {
+                    $.each(persona, function (index, cliente) {
+                        if (cliente.ErrorAlAsociar == 0) {
+                            $("#thead-asociar").append("<tr class='barratitulosindex' style='background-image: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);'>" +
+
+                                "<th>Datos de la Persona a la cual desea asociarse</th>" +
+
+                                "<th class='descarto550'></th>" +
+
+                                "<th></th>" +
+
+                                "<th></th>" +
+
+                                "</tr>"
+                            );
+
+                            $("#tbody-asociar").append("<tr>" +
+
+                                "<td class=''>" + cliente.RazonSocial + "</td>" +
+
+                                "<td class='descarto550'>" + cliente.Domicilio + "</td>" +
+
+                                "<td class='text-right'>" + cliente.NroDocumento + "</td>" +
+
+                                "<td class='text-center'><input type='checkbox' onclick='TildaCheck(this);' id='Seleccionar' name='Seleccionar' style='height:25px' /></td>" +
+
+                                "</tr>"
+                            );
+
+                            $("#idClienteAsociar").val(cliente.ClienteID);
+                        }
+                        if (cliente.ErrorAlAsociar == 1) {
+                            $('#caracteres-Email').text('El Email ingresado no se encuentra registrado en el sistema.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                        if (cliente.ErrorAlAsociar == 2) {
+                            $('#caracteres-Email').text('El Email ingresado es el mismo Email del Usuario logueado actualmente.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                        if (cliente.ErrorAlAsociar == 3) {
+                            $('#caracteres-Email').text('El Email ingresado no pertenece a un Cliente de Logui Soft, pertenece a un usuario común.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                        if (cliente.ErrorAlAsociar == 4) {
+                            $('#caracteres-Email').text('El Email ingresado pertenece a un Cliente inactivo por lo tanto no se podrá asociar.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                        if (cliente.ErrorAlAsociar == 5) {
+                            $('#caracteres-Email').text('El Email ingresado ya se encuentra asociado a otra persona, la misma no podrá asociarse.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                        if (cliente.ErrorAlAsociar == 6) {
+                            $('#caracteres-Email').text('Usted debe poseer una Empresa para poder asociarse con otros Clientes.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                        if (cliente.ErrorAlAsociar == 7) {
+                            $('#caracteres-Email').text('Usted posee una Plan de pruebas por 15 días, no podrá asociarse con otros Clientes.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                        if (cliente.ErrorAlAsociar == 8) {
+                            $('#caracteres-Email').text('El Email ingresado ya posee otros Clientes asociados a él. El mismo no podrá asociarse.');
+                            $('#caracteres-Email').removeClass('ocultar');
+                        }
+                    });
+                },
+                error: function (result) {
+                }
+            });
+        }
+        //FIN CONSULTAR CLIENTE POR CORREO.
+
+        var ckeck = false;
+        function TildaCheck(source) {
+            if (source.checked == true) {
+                ckeck = true;
+            }
+        }
+
+        //ASOCIAR CLIENTES.
+        function AsociarClientes() {
+            var clienteAAsociar = $("#idClienteAsociar").val();
+
+            $.ajax({
+                type: "POST",
+                url: '../../Manage/AsociarClientes',
+                data: { ClienteAAsociar: clienteAAsociar },
+                success: function (resultado) {
+                    if (resultado == true) {
+                        swal({
+                            title: "EXITO",
+                            text: "La asociación se realizó correctamente.",
+                            icon: "success",
+
+                            dangerMode: true,
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+
+                            buttons: {
+                                confirm: {
+                                    text: "Aceptar",
+                                    value: true,
+                                    visible: true,
+                                    className: "",
+                                    closeModal: true
+                                }
+                            },
+                        })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $('#buscar').val('');
+                                    $('#caracteres-Email').addClass('ocultar');
+
+                                    $("#tbody-asociar").empty();
+                                    $("#thead-asociar").empty();
+
+                                    location.href = "../../Manage/Perfil";
+                                }
+                                else {
+                                }
+                            });
+                    }
+                    else {
+                        swal({
+                            title: "ATENCIÓN",
+                            text: "La asociación no pudo llevarse a cabo por problemas técnicos, intente nuevamente más tarde.",
+                            icon: "error",
+
+                            dangerMode: true,
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+
+                            buttons: {
+                                confirm: {
+                                    text: "Aceptar",
+                                    value: true,
+                                    visible: true,
+                                    className: "",
+                                    closeModal: true
+                                }
+                            },
+                        })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    $('#buscar').val('');
+                                    $('#caracteres-Email').addClass('ocultar');
+
+                                    $("#tbody-asociar").empty();
+                                    $("#thead-asociar").empty();
+                                }
+                                else {
+                                }
+                            });
+                        //alert("La asociación no pudo llevarse a cabo por problemas técnicos, intente nuevamente más tarde.")
+
+                    }
+                },
+                error: function (result) {
+                }
+            });
+        }
+        //FIN ASOCIAR CLIENTE.
+
+
+        //BUSCAR EL CLIENTE PRINCIPAL AL QUE SE ENCUENTRA ASOCIADO.
+        window.onload = BuscarAsociadoA();
+
+        function BuscarAsociadoA() {
+            $("#tbody-asociadoA").empty();
+            $.ajax({
+                type: "POST",
+                url: '../../Manage/BuscarAsociadoA',
+                data: {},
+                success: function (item) {
+                    $("#tbody-asociadoA").append("<tr>" +
+
+                        "<td class='text-bold'>" + item.RazonSocial + "</td>" +
+
+                        "<td class='text-bold descarto550'>" + item.Domicilio + "</td>" +
+
+                        "<td class='text-bold text-right descarto550'>" + item.NroDocumento + "</td>" +
+
+                        "</tr>");
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+        //FIN BUSCAR EL CLIENTE PRINCIPAL AL QUE SE ENCUENTRA ASOCIADO.
+
+
+        //BUSCAR LOS CLIENTES A LOS QUE SE ENCUENTRA ASOCIADO.
+        window.onload = BuscarAsociadoCon();
+
+        function BuscarAsociadoCon() {
+            $("#tbody-asociadoCon").empty();
+            $.ajax({
+                type: "POST",
+                url: '../../Manage/BuscarAsociadoCon',
+                data: {},
+                success: function (item) {
+                    $.each(item, function (index, asociados) {
+                        $("#tbody-asociadoCon").append("<tr>" +
+
+                            "<td class='text-bold'>" + asociados.RazonSocial + "</td>" +
+
+                            "<td class='text-bold descarto550'>" + asociados.Domicilio + "</td>" +
+
+                            "<td class='text-bold text-right descarto550'>" + asociados.NroDocumento + "</td>" +
+
+                            "<td class='tdBotones text-center'>" + "<a onclick='EliminarAsociacion(" + asociados.ClienteID + ")' class='btn-tabla' title='Eliminar'>" + "<i class='fa fa-trash'></i>" + "</a></td>" +
+
+                            "</tr>");
+                    });
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+        //FIN BUSCAR LOS CLIENTES A LOS QUE SE ENCUENTRA ASOCIADO.
+
+
+        //ELIMINAR LA ASOCIACION DEL CLIENTE PRINCIPAL.
+        function EliminarAsociacion(ClienteID) {
+            swal({
+                title: "ATENCIÓN",
+                text: "¿Está SEGURO de eliminar la asociación de Clientes?",
+                icon: "warning",
+
+                dangerMode: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+
+                buttons: {
+                    cancel: {
+                        text: "Cancelar",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "Aceptar",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: true
+                    }
+                },
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        MostrarCarga();
+
+                        $.ajax({
+                            type: "POST",
+                            url: '../../Manage/EliminarAsociacion',
+                            data: { ClienteAsociadoID: ClienteID },
+                            success: function (data) {
+                                location.href = "../../Manage/Perfil";
+                            },
+                            error: function (result) {
+
+                            }
+                        });
+                    }
+                    else {
+                        return false;
+                    }
+                });
+
+
+        };
+                    //FIN BUSCAR EL CLIENTE PRINCIPAL AL QUE SE ENCUENTRA ASOCIADO.
+
+                    //***********************************// FIN de la sección es para la ASOCIACIÓN DE CLIENTES //*********************************//
+                    //**********************************//*****************************************************//*********************************//
+    </script>
+}

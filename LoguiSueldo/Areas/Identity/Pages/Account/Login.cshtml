@@ -1,83 +1,219 @@
 ﻿@page
-@model LoginModel
+@model LoguiSueldo.Models.LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Iniciar sesión";
+    // si tu layout está en Views/Shared/_Login.cshtml:
+    Layout = "_Login";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </form>
-        </section>
+<section class="login-container">
+    <div class="about">
+        <img src="~/img/logui_soft.png" class="logo" alt="Logo de Logui Soft" title="Conocé más" asp-append-version="true" />
+        <div class="social-network">
+            <a href="http://www.loguisoft.com" target="_blank" title="Visitar Sitio web www.loguisoft.com">
+                <i class="fa fa-globe logo" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.instagram.com/loguisoft" class="instagram" target="_blank" title="Instagram Logui Soft">
+                <i class="fa fa-instagram logo" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.facebook.com/loguisoft" class="facebook" target="_blank" title="Facebook Logui Soft">
+                <i class="fa fa-facebook-official logo" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.youtube.com/playlist?list=PLAVyjbuYk3v909GAg4p_V6mlI8RVW3Gh7" class="youtube" target="_blank" title="Youtube Logui Soft">
+                <i class="fa fa-youtube-play logo" aria-hidden="true"></i>
+            </a>
+        </div>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
+
+    <div id="login" class="login">
+        <img class="img-login" src="~/img/logo-logui-contable.png" asp-append-version="true" />
+
+        <!-- En Core usamos Tag Helpers. El antiforgery se agrega solo con el form tag helper -->
+        <form asp-controller="Account"
+              asp-action="Login"
+              asp-route-returnUrl="@(ViewData["ReturnUrl"] as string)"
+              method="post"
+              class="form login-form">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-input">
+                <input asp-for="Email" class="form-control" placeholder="Email" autofocus />
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <i id="email-invalido-login" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="El email ingresado no es válido." aria-hidden="true"></i>
+            </div>
+
+            <div class="form-input">
+                <input asp-for="Password" class="form-control" placeholder="Contraseña" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <i id="password-invalido" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="La contraseña ingresada no es válida." aria-hidden="true"></i>
+            </div>
+
+            <div class="rememberAndResetPassword">
+                <label class="remember-me">
+                    <input asp-for="RememberMe" /> ¿Recordarme?
+                    <i></i>
+                </label>
+
+                <!-- Evitá la ñ en el nombre del Action. Sugerencia: RecuperarContrasena -->
+                <a asp-page="/Account/RecuperarContrasena"
+                   class="text-center new-account text-bold olvidoContraseña"
+                   title="Recuperar Contraseña">¿Se te olvidó tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-block btn-ingresar">Ingresar</button>
+
+            <div class="loader ocultar">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                     width="50" height="50" viewBox="0 0 40 40" xml:space="preserve">
+                <path opacity="0.2" fill="#000"
+                      d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                          s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                          c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                          C22.32,8.481,24.301,9.057,26.013,10.047z">
+                <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                  from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+                    </path>
+                </svg>
+            </div>
+
+            <p class="login-invalid ocultar">Inicio de Sesión no válido.</p>
+        </form>
+
+        <div class="register">
+            <span>¿No tienes cuenta?</span>
+            <a onclick="UsersRegister()" class="btn-register" title="Registrarse">
+                Crear cuenta
+            </a>
+        </div>
+    </div>
+
+    <div id="register" class="login ocultar">
+        <img class="img-login img-login-registrar" src="~/img/logoLoguiGestion.png" asp-append-version="true" />
+
+        <div class="form">
+            <div class="form-input">
+                <input type="text" id="NombreCompleto" name="NombreCompleto" class="form-control" placeholder="Nombre Completo" />
+                <i id="nombre-requerido" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="Debe completar con su Nombre Completo." aria-hidden="true"></i>
+            </div>
+
+            <div class="form-input">
+                <input type="text" id="Telefono" name="Telefono" class="form-control" placeholder="Telefono" />
+                <i id="telefono-requerido" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="Debe completar con su Telefono." aria-hidden="true"></i>
+            </div>
+
+            <div class="form-input">
+                <input type="tel" id="Documento" name="Documento" class="form-control" placeholder="Nro. Documento" />
+                <i id="documento-requerido" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="Debe completar con su Nro. de Documento." aria-hidden="true"></i>
+                <div id="documento-existente" class="dato-incorrecto requeridoLogin ocultar">
+                    Ya existe un cliente registrado con el mismo Documento.
+                </div>
+            </div>
+
+            <div class="form-input">
+                <input type="email" id="EmailRegistrar" name="Email" class="form-control" autocomplete="off" placeholder="Correo Electrónico" />
+                <i id="email-invalido" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="El email ingresado no es válido." aria-hidden="true"></i>
+                <div id="email-existente" class="dato-incorrecto requeridoLogin ocultar">El email ingresado ya existe.</div>
+            </div>
+
+            <div class="form-input">
+                <input type="password" id="PasswordRegistrar" name="Password" class="form-control" placeholder="Contraseña" />
+                <i id="contraseña-invalida" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="La contraseña debe tener mínimo 6 dígitos." aria-hidden="true"></i>
+            </div>
+
+            <div class="form-input">
+                <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Confirmar Contraseña" />
+                <i id="contraseña-diferente" class="fa fa-exclamation-circle requeridoLogin ocultar"
+                   data-toggle="tooltip" data-placement="bottom" title="Las contraseñas no coinciden." aria-hidden="true"></i>
+            </div>
+
+            <div>
+                <button title="Registrarse" id="btn-registrarse" onclick="UsuarioRegister(event);" class="btn btn-lg btn-block btn-ingresar">
+                    Registrarse
+                </button>
+
+                <div class="loader ocultar">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                         width="50" height="50" viewBox="0 0 40 40" xml:space="preserve">
+                    <path opacity="0.2" fill="#000"
+                          d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                              s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                              c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+                    <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                              C22.32,8.481,24.301,9.057,26.013,10.047z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                      from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="register">
+            <span>Si ya tienes cuenta</span>
+            <a onclick="UsersLogin()" class="btn-register" title="Iniciar Sesión">
+                Iniciar Sesión
+            </a>
+        </div>
+    </div>
+
+    <div class="images-container">
+        <div id="carousel-example-generic" class="carousel slide height-100" data-ride="carousel" data-interval="10000" data-pause="null">
+            <div class="carousel-inner img-container height-100" role="listbox">
+                <div class="item active height-100">
+                    <img src="~/img/login_register/LoguiContable1.jpg" class="img" alt="...">
+                    <div class="carousel-caption img-caption">
+                        <h1>Gestión de Asientos Diarios</h1>
+                        <p>Gestiona tus registros contables de manera eficiente…</p>
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
+                </div>
+                <div class="item height-100">
+                    <img src="~/img/login_register/LoguiContable2.jpg" class="img" alt="...">
+                    <div class="carousel-caption img-caption">
+                        <h1>Detalles de Cuentas</h1>
+                        <p>Obtén una visión clara y completa…</p>
+                    </div>
+                </div>
+                <div class="item height-100">
+                    <img src="~/img/login_register/LoguiContable3.jpg" class="img" alt="...">
+                    <div class="carousel-caption img-caption">
+                        <h1>Balance de Sumas y Saldos</h1>
+                        <p>Analiza en detalle el balance…</p>
+                    </div>
+                </div>
+                <div class="item height-100">
+                    <img src="~/img/login_register/LoguiContable4.jpg" class="img" alt="...">
+                    <div class="carousel-caption img-caption">
+                        <h1>Análisis Preliminar del Balance</h1>
+                        <p>Obtén una visión detallada…</p>
+                    </div>
+                </div>
+                <div class="item active height-100">
+                    <img src="~/img/login_register/LoguiContable5.jpg" class="img" alt="...">
+                    <div class="carousel-caption img-caption">
+                        <h1>Gestión de Facturas</h1>
+                        <p>Simplifica y optimiza el proceso…</p>
+                    </div>
+                </div>
+                <div class="item active height-100">
+                    <img src="~/img/login_register/LoguiContable6.jpg" class="img" alt="...">
+                    <div class="carousel-caption img-caption">
+                        <h1>Resultados de IVA</h1>
+                        <p>Obtén los resultados de IVA de compra y venta…</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<script src="~/js/Login/UserLoginRegister.js" asp-append-version="true"></script>

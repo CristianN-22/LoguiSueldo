@@ -1,0 +1,177 @@
+﻿@model IEnumerable<LoguiSueldo.Models.ListadoEmpresasUsuarioTitular>
+
+@{
+    ViewBag.Title = "Gestión de la cuenta";
+    Layout = "~/Views/Shared/_LayoutMenuSimple.cshtml";
+}
+
+<div>
+    <section class="content-header">
+        <h1>
+            PERFIL
+            <small>Listado de Empresas</small>
+        </h1>
+    </section>
+    <section class="content">
+        <div>
+            @if (ViewBag.EsAdministrador != null)
+            {
+                <a class="btnPosicion2" href="~/Administrador/PlanesUsuarios" title="Administrador"><i class="glyphicon glyphicon-user"></i></a>
+            }
+
+            @if (ViewBag.existeEmpresa >= 1)
+            {
+                <a id="btnNuevasEmpresas" class="btnPosicion1" href="#NuevaEmpresa" title="Registrar Empresa"><i class="glyphicon glyphicon-plus"></i></a>
+            }
+            else
+            {
+                <a class="btnPosicion1" href="~/Account/RegistrarEmpresa" title="Registrar Empresa"><i class="glyphicon glyphicon-plus"></i></a>
+            }
+        </div>
+
+        @if (ViewBag.StatusMessage != "")
+        {
+            <div id="Eliminado" class="alert alert-success text-center" style="font-size:16px;">
+                <div class="mensajeSuccess">
+                    <div class="text-right" style="margin-top:-5px ;margin-bottom:-15px; cursor:pointer">
+                        <a onclick="QuitarMensaje()"><i class="glyphicon glyphicon-remove mensajeSuccess"></i></a>
+                    </div>
+                    <strong>¡Constraseña cambiada Correctamente!</strong>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.Error == "1")
+        {
+            <div id="msj1" class="alert alert-danger text-center" style="font-size:16px;">
+                <div class="mensajeDanger">
+                    <div class="text-right" style="margin-top:-5px ;margin-bottom:-15px; cursor:pointer">
+                        <a onclick="QuitarMensaje()"><i class="glyphicon glyphicon-remove mensajeDanger"></i></a>
+                    </div>
+                    <strong>¡No puede realizar esta acción!</strong>
+                    <hr style="border-color:transparent; margin-top:-15px" />
+                    <strong>"La empresa seleccionada se encuentra deshabilitada. Consulte con su proveedor para restablecer el servicio."</strong>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.Error == "2")
+        {
+            <div id="msj2" class="alert alert-danger text-center" style="font-size:16px;">
+                <div class="mensajeDanger">
+                    <div class="text-right" style="margin-top:-5px ;margin-bottom:-15px; cursor:pointer">
+                        <a onclick="QuitarMensaje()"><i class="glyphicon glyphicon-remove mensajeDanger"></i></a>
+                    </div>
+                    <strong>Usted ha llegado al límite de empresas.</strong>
+                    <hr style="border-color:transparent; margin-top:-15px" />
+                    <strong>Consulte con el administrador para crear nuevas empresas.</strong>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.Error == "3")
+        {
+            <div class="alert alert-danger text-center" style="font-size:16px;">
+                <div class="mensajeDanger">
+                    <strong>¡No puede realizar esta acción!</strong>
+                    <hr style="border-color:transparent; margin-top:-15px" />
+                    <strong>"La empresa seleccionada está bloqueada debido a que finalizaron los 15 días de prueba."</strong>
+                </div>
+            </div>
+        }
+        @if (Model.Count() == 0)
+        {
+            <div class="alert alert-info text-center" style="font-size:16px; margin-top:20px">
+                <strong class="mensajeInfo">No existen Empresas relacionadas a su Usuario.</strong>
+            </div>
+        }
+        else
+        {
+            <div class="contenedor-empresas">
+                @{
+                    var index = 1;
+                }
+                @foreach (var c in Model.OrderBy(o => o.PersonaNombre))
+                {
+                    <div class="row empresas-por-titular">
+                        <div class="col-md-12">
+                            <h4 class="titulo"><i class="fa fa-user-circle" aria-hidden="true"></i>@c.PersonaNombre</h4>
+                        </div>
+                        @foreach (var empresa in c.ListadoEmpresaUsuario.OrderBy(o => o.RazonSocial))
+                        {
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <a href="~/Manage/SeleccionaEmpresa?id=@empresa.EmpresaID" name="btn-submit" class="NoSubrayar">
+                                    <div class="empresa" tabindex="@index">
+                                        <div class="detalles-empresa">
+                                            <p class="text-bold nombre-empresa-manage">@empresa.RazonSocial</p>
+                                            <div class="detalles">
+                                                <p>Permiso: <strong>@empresa.PermisoNombre</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            index += 1;
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </section>
+
+    <div>
+        <div class="modal-wrapper popup ocultar" id="NuevaEmpresa">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Información</h5>
+                        <a href="~/Manage/Index" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal form-articulo-factura" role="form" id="formulario" style="margin-top:0px">
+                            <div class="row">
+                                @*<p class="text-bold">Estimado Cliente, al crear más de una Empresa dentro del Sistema <span class="texto-lila">Logui Contable</span> se le mantendra el monto del abono mensual para la empresa que poseea el plan más alto, pero se le <span class="text-red">bonificará un 50%</span> el abono mensual de las Empresas extras.</p>*@
+                                <p class="text-bold">Estimado Cliente, queremos informarle que solo puede crear una empresa en el Sistema <span class="texto-lila">Logui Contable</span>.</p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div id="Div-Agregar" class="text-center">
+                            <a href="~/Manage/Index" type="button" class="btn-ovalo" data-dismiss="modal">Cancelar</a>
+                            <a id="btn-agregar" href="~/Account/RegistrarEmpresa" class="btn-ovalo"> Continuar</a>
+                            <button id="btn-espere" class="btn-ovalo ocultar">Espere...</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function QuitarMensaje() {
+            $('#ErrorEliminar').addClass('ocultarCarga');
+            $('#Eliminado').addClass('ocultarCarga');
+            $('#msj1').addClass('ocultarCarga');
+            $('#msj2').addClass('ocultarCarga');
+        }
+
+
+
+        $("#btnNuevasEmpresas").click(function () {
+            AbrirFlotante();
+        });
+        function AbrirFlotante() {
+            //$('#msj2').removeClass('ocultarCarga');
+            $("#NuevaEmpresa").removeClass("ocultar");
+        }
+
+    </script>
+}

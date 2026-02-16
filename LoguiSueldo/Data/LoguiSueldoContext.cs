@@ -1,4 +1,5 @@
 ﻿using LoguiSueldo.Models;
+using LoguiSueldo.Models.Administracion;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoguiSueldo.Data
@@ -8,21 +9,23 @@ namespace LoguiSueldo.Data
         public LoguiSueldoContext(DbContextOptions<LoguiSueldoContext> options)
             : base(options)
         {
-        }
-        
-        
 
+        }
+
+        public DbSet<ClientesLogui> ClientesLogui { get; set; }
         public DbSet<Persona> Personas { get; set; }
 
         public DbSet<Permiso> Permisos { get; set; }
 
         public DbSet<PermisoUsuario> PermisoUsuarios { get; set; }
+        public DbSet<TipoDocumento> TipoDocumentos { get; set; }
 
         public DbSet<Empleado> Empleados { get; set; }
 
         public DbSet<Empleado_Adicional> Empleados_Adicional { get; set; }
 
         public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<EmpresaOnline> EmpresasOnline { get; set; }
 
         public DbSet<Pais> Pais { get; set; }
 

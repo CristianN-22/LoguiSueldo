@@ -42,6 +42,56 @@ namespace LoguiSueldo.Migrations
                     b.ToTable("ARTs");
                 });
 
+            modelBuilder.Entity("LoguiSueldo.Models.Administracion.ClientesLogui", b =>
+                {
+                    b.Property<int>("ClienteID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteID"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Domicilio")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("FechaAlta")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NroTipoDocumento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RazonSocial")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("TipoDocumentoID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClienteID");
+
+                    b.HasIndex("TipoDocumentoID");
+
+                    b.ToTable("ClientesLogui");
+                });
+
             modelBuilder.Entity("LoguiSueldo.Models.Antiguedad_Convenio", b =>
                 {
                     b.Property<int>("AntiguedadConvenioID")
@@ -489,13 +539,13 @@ namespace LoguiSueldo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Cuit")
+                        .HasColumnType("int");
+
                     b.Property<string>("DireccionReal")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
-
-                    b.Property<int>("EmpresaIDLoguiGestion")
-                        .HasColumnType("int");
 
                     b.Property<int>("LocalidadID")
                         .HasColumnType("int");
@@ -518,9 +568,6 @@ namespace LoguiSueldo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoContribuyenteID")
-                        .HasColumnType("int");
-
                     b.Property<int>("TipoDocumentoID")
                         .HasColumnType("int");
 
@@ -532,7 +579,32 @@ namespace LoguiSueldo.Migrations
 
                     b.HasIndex("LocalidadID");
 
+                    b.HasIndex("TipoDocumentoID");
+
                     b.ToTable("Empresas");
+                });
+
+            modelBuilder.Entity("LoguiSueldo.Models.EmpresaOnline", b =>
+                {
+                    b.Property<int>("EmpresaOnlineID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpresaOnlineID"));
+
+                    b.Property<int>("EmpresaID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UltimoIngreso")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UsuarioOnline")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmpresaOnlineID");
+
+                    b.ToTable("EmpresasOnline");
                 });
 
             modelBuilder.Entity("LoguiSueldo.Models.Horas_empleados", b =>
@@ -804,9 +876,6 @@ namespace LoguiSueldo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmpresaID")
-                        .HasColumnType("int");
-
                     b.Property<string>("LocalidadNombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -955,6 +1024,9 @@ namespace LoguiSueldo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonaID"));
 
+                    b.Property<int>("CodPostal")
+                        .HasColumnType("int");
+
                     b.Property<string>("CorreoElectronico")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -978,24 +1050,19 @@ namespace LoguiSueldo.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("NombreFantasia")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
                     b.Property<string>("NroTipoDocumento")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PersonaConsumidorFinal")
-                        .HasColumnType("bit");
+                    b.Property<int>("PaisID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProvinciaID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Telefono1")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TipoContribuyenteID")
-                        .HasColumnType("int");
 
                     b.Property<int>("TipoDocumentoID")
                         .HasColumnType("int");
@@ -1003,6 +1070,8 @@ namespace LoguiSueldo.Migrations
                     b.HasKey("PersonaID");
 
                     b.HasIndex("LocalidadID");
+
+                    b.HasIndex("TipoDocumentoID");
 
                     b.ToTable("Personas");
                 });
@@ -1091,9 +1160,6 @@ namespace LoguiSueldo.Migrations
             modelBuilder.Entity("LoguiSueldo.Models.Provincia", b =>
                 {
                     b.Property<int>("ProvinciaID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmpresaID")
                         .HasColumnType("int");
 
                     b.Property<int>("PaisID")
@@ -1291,11 +1357,43 @@ namespace LoguiSueldo.Migrations
                     b.ToTable("SistJubilatorios");
                 });
 
+            modelBuilder.Entity("LoguiSueldo.Models.TipoDocumento", b =>
+                {
+                    b.Property<int>("TipoDocumentoID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TipoDocumentoNombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Visible")
+                        .HasColumnType("bit");
+
+                    b.HasKey("TipoDocumentoID");
+
+                    b.ToTable("TipoDocumentos");
+                });
+
+            modelBuilder.Entity("LoguiSueldo.Models.Administracion.ClientesLogui", b =>
+                {
+                    b.HasOne("LoguiSueldo.Models.TipoDocumento", null)
+                        .WithMany("ClientesLoguiSoft")
+                        .HasForeignKey("TipoDocumentoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LoguiSueldo.Models.Empresa", b =>
                 {
                     b.HasOne("LoguiSueldo.Models.Localidad", "Localidades")
                         .WithMany("Empresa")
                         .HasForeignKey("LocalidadID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LoguiSueldo.Models.TipoDocumento", null)
+                        .WithMany("Empresa")
+                        .HasForeignKey("TipoDocumentoID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1340,6 +1438,12 @@ namespace LoguiSueldo.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LoguiSueldo.Models.TipoDocumento", null)
+                        .WithMany("Persona")
+                        .HasForeignKey("TipoDocumentoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Localidades");
                 });
 
@@ -1379,6 +1483,15 @@ namespace LoguiSueldo.Migrations
             modelBuilder.Entity("LoguiSueldo.Models.Provincia", b =>
                 {
                     b.Navigation("Localidad");
+                });
+
+            modelBuilder.Entity("LoguiSueldo.Models.TipoDocumento", b =>
+                {
+                    b.Navigation("ClientesLoguiSoft");
+
+                    b.Navigation("Empresa");
+
+                    b.Navigation("Persona");
                 });
 #pragma warning restore 612, 618
         }

@@ -13,12 +13,11 @@ namespace LoguiSueldo.Models
         [Display(Name = "Persona")]
         public int EmpresaID { get; set; }
 
-        public int EmpresaIDLoguiGestion { get; set; }
-
         [Display(Name = "Nombre y Apellido / Razón Social")]
         [Required(ErrorMessage = "Debe ingresar un {0}")]
         [StringLength(150, ErrorMessage = "El {0} debe tener entre como máximo {1} caracteres.")]
         public string RazonSocial { get; set; }
+        public int Cuit { get; set; }
 
         [Display(Name = "Nombre de Fantasía")]
         [StringLength(50, ErrorMessage = "El {0} debe tener entre como máximo {1} caracteres.")]
@@ -31,8 +30,8 @@ namespace LoguiSueldo.Models
         [Display(Name = "Localidad")]
         public int LocalidadID { get; set; }
 
-        [Display(Name = "Tipo de Contribuyente")]
-        public int TipoContribuyenteID { get; set; }
+        //[Display(Name = "Tipo de Contribuyente")]
+        //public int TipoContribuyenteID { get; set; }
 
         [Display(Name = "Tipo de Documento")]
         public int TipoDocumentoID { get; set; }
